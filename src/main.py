@@ -1,7 +1,7 @@
 import os
 import shutil
 import logging
-from website import generate_page
+from website import generate_pages_recursive
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -51,10 +51,10 @@ def main():
     clean_and_copy_directory(source_directory, destination_directory)
 
     # Generate the HTML page from Markdown and template
-    from_path = "content/index.md"
+    from_path = "content"
     template_path = "template.html"
-    dest_path = "public/index.html"
-    generate_page(from_path, template_path, dest_path)
+    dest_path = "public"
+    generate_pages_recursive(from_path, template_path, dest_path)
 
 
 # Entry point of the script
