@@ -109,9 +109,3 @@ To use the static site generator:
 2. Use `markdown_to_html_node` to convert the Markdown to an `HTMLNode` tree.
 3. Call the `to_html` method on the root `HTMLNode` to generate the final HTML output.
 
-## Future Improvements
-
-1. Implement support for more Markdown features (e.g., tables, blockquotes).
-2. Add a command-line interface for easy use.
-3. Implement a file watcher for automatic regeneration of HTML when Markdown files change.
-4. Add support for custom templates and themes.
