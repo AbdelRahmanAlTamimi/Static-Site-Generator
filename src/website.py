@@ -3,7 +3,7 @@ from pathlib import Path
 from blocks_markdown import markdown_to_html_node, extract_title
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath="/"):
     """
     Generates an HTML page from a Markdown file using a template.
     Replaces {{ Title }} and {{ Content }} placeholders in the template.
@@ -32,6 +32,10 @@ def generate_page(from_path, template_path, dest_path):
         "{{ Content }}", html_content
     )
 
+    # Replace href="/ and src="/ with basepath
+    full_html = full_html.replace('href="/', f'href="{basepath}')
+    full_html = full_html.replace('src="/', f'src="{basepath}')
+
     # Ensure the destination directory exists
     dest_dir = os.path.dirname(dest_path)
     os.makedirs(dest_dir, exist_ok=True)
@@ -44,7 +48,7 @@ def generate_page(from_path, template_path, dest_path):
 
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath="/"):
     """
     Recursively crawls the content directory, finds Markdown files, and generates HTML files
     using the provided template. The generated files are saved in the destination directory
@@ -60,10 +64,10 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 
         if os.path.isdir(entry_path):
             # If the entry is a directory, recursively process it
-            generate_pages_recursive(entry_path, template_path, dest_entry_path)
+            generate_pages_recursive(entry_path, template_path, dest_entry_path, basepath)
         elif entry.endswith(".md"):
             # If the entry is a Markdown file, generate the corresponding HTML file
             html_filename = os.path.splitext(entry)[0] + ".html"
             dest_html_path = os.path.join(dest_dir_path, html_filename)
-            generate_page(entry_path, template_path, dest_html_path)
+            generate_page(entry_path, template_path, dest_html_path, basepath)
             print(f"Generated: {dest_html_path}")

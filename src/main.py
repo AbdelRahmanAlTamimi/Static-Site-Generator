@@ -1,6 +1,7 @@
 import os
 import shutil
 import logging
+import sys
 from website import generate_pages_recursive
 
 # Set up logging
@@ -45,16 +46,19 @@ def main():
     """
     Main function to execute the script logic.
     """
-    # Copy static files to the public directory
+    # Get basepath from CLI argument, default to "/"
+    basepath = sys.argv[1] if len(sys.argv) > 1 else "/"
+
+    # Copy static files to the docs directory
     source_directory = "static"
-    destination_directory = "public"
+    destination_directory = "docs"
     clean_and_copy_directory(source_directory, destination_directory)
 
     # Generate the HTML page from Markdown and template
     from_path = "content"
     template_path = "template.html"
-    dest_path = "public"
-    generate_pages_recursive(from_path, template_path, dest_path)
+    dest_path = "docs"
+    generate_pages_recursive(from_path, template_path, dest_path, basepath)
 
 
 # Entry point of the script
